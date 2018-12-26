@@ -7,7 +7,7 @@
 		}
 		public function login($data)
 		{
-			$where = array('email' => $data['email'], 'password' => $data['password']);
+			$where = array('email' => $data['email'], 'password' => md5($data['password']));
 			return $this->db->select('id,status')->from('login')->where($where)->get()->row();
 		}
 	}

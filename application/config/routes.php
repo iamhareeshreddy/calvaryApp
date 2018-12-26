@@ -60,21 +60,7 @@ $route['password-reset/(:any)']			= 'login_controller/resetPassword/$1';
 $route['change-password']				= 'login_controller/changePassword';
 $route['logout']						= 'voilet_controller/logout';
 $route['dashboard']						= 'voilet_controller';
-$route['list-fad']						= 'voilet_controller/listFad';
-$route['upload-fad']					= 'voilet_controller/uploadFad';
-$route['create-fad']					= 'voilet_controller/createFad';
-$route['update-fad/(:any)']				= 'voilet_controller/updateFad';
-$route['add-category']					= 'voilet_controller/addCategory';
-$route['firebase-settings']				= 'voilet_controller/firebaseSettings';
-$route['save-firebase-keys']			= 'voilet_controller/saveFirebaseKeys';
-$route['cms-pages']						= 'voilet_controller/cmsPages';
-$route['create-cms-page']				= 'voilet_controller/createCmsPage';
-$route['delete-cms-page/(:num)']		= 'voilet_controller/deleteCmsPage/$1';
-$route['update-cms-page/(:num)']		= 'voilet_controller/updateCmsPage/$1';
-$route['advert']						= 'voilet_controller/advert';
-$route['delete-advert/(:num)']			= 'voilet_controller/deleteAdvert/$1';
-$route['create-advert']					= 'voilet_controller/createAdvert';
-$route['upload-advert']					= 'voilet_controller/uploadAdvert';
+
 
 
 

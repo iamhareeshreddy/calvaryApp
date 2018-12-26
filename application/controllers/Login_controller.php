@@ -16,9 +16,7 @@ class Login_controller extends CI_Controller
 	public function index()
 	{
 		$array = array();
-		$this->load->view('header');
-		$this->load->view('calvary_views/index.php');
-		$this->load->view('footer');
+		$this->load->view("login");
 	}
 	public function login()
 	{
@@ -31,7 +29,7 @@ class Login_controller extends CI_Controller
 			echo json_encode(array('error' => true ,"message" => "Invalid username or password"));die();
 		}
 		$data = $this->login_model->login($this->input->post());
-		if(count($data) > 0)
+		if(!empty($data))
 		{
 			if($data->id == 1 && $data->status == 1)
 			{
@@ -86,7 +84,7 @@ class Login_controller extends CI_Controller
 									);
 					$this->load->library('email', $config);
 					$this->email->set_newline("\r\n");
-					$this->email->from('calvary@gmail.com', 'Admin');//your mail address and name
+					$this->email->from(PROJECT_NAME.'@gmail.com', 'Admin');//your mail address and name
 					$this->email->to($result->email); //receiver mail
 					$this->email->subject('testing');
 					$this->email->message($message);

@@ -75,12 +75,12 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'localhost:3366',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'voilet_db',
+	'database' => 'calvary_db',
 	'dbdriver' => 'mysqli',
-	'dbprefix' => 'vt_',
+	'dbprefix' => 'cv_',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,
