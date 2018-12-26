@@ -58,8 +58,11 @@ $route['login']							= 'login_controller/login';
 $route['forgot-password']				= 'login_controller/forgotPassword';
 $route['password-reset/(:any)']			= 'login_controller/resetPassword/$1';
 $route['change-password']				= 'login_controller/changePassword';
-$route['logout']						= 'voilet_controller/logout';
-$route['dashboard']						= 'voilet_controller';
+$route['log-out']						= 'login_controller/logout';
+$route['dashboard']						= 'calvary_controller';
+$route['audio']							= 'audio_controller';
+$route['video']							= 'video_controller';
+$route['image']							= 'image_controller';
 
 
 

@@ -9,7 +9,8 @@ class Login_controller extends CI_Controller
 		$this->load->model('login_model');
 		if($this->session->userdata('is_login') != '')
 		{
-			if($this->uri->segment(1) != 'change-password')
+			$seg1 = $this->uri->segment(1);
+			if($seg1 != 'change-password' && $seg1 != 'log-out')
 				redirect(base_url('dashboard'));
 		}
 	}
@@ -17,6 +18,11 @@ class Login_controller extends CI_Controller
 	{
 		$array = array();
 		$this->load->view("login");
+	}
+	public function logOut()
+	{
+		$this->session->sess_destroy();
+		redirect('/');
 	}
 	public function login()
 	{

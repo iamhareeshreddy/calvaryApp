@@ -17,6 +17,23 @@ if (!function_exists('templetView'))
 		$CI->load->view($footer);
 	}
 }
+if(!function_exists("set_class"))
+{
+	function set_class($menu_item)
+	{
+		$CI = get_instance();
+		$menu_item.'item';
+		$url = $CI->uri->segment(1);
+		if(strtolower($menu_item) == strtolower($url))
+		{
+			return "active";
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
 if (!function_exists('random_string'))
 {
 	function random_string($stringLength=10)

@@ -13,25 +13,25 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li class="<?=set_class('dashboard')?>">
                         <a href="<?=site_url('dashboard')?>"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
                     </li>
                     <!-- <h3 class="menu-title">UI elements</h3> --><!-- /.menu-title -->
-                    <li>
-                        <a href="<?=site_url('audio')?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa  fa-play-circle-o"></i>Audio</a>
+                    <li class="<?=set_class('audio')?>">
+                        <a href="<?=site_url('audio')?>"> <i class="menu-icon fa  fa-play-circle-o"></i>Audio</a>
                         <!-- <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Buttons</a></li>
                         </ul> -->
                     </li>
-                    <li>
-                        <a href="<?=site_url('video')?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-youtube-play"></i>Videos</a>
+                    <li class="<?=set_class('video')?>">
+                        <a href="<?=site_url('video')?>"> <i class="menu-icon fa fa-youtube-play"></i>Videos</a>
                         <!-- <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-table"></i><a href="tables-basic.html">Basic Table</a></li>
                             <li><i class="fa fa-table"></i><a href="tables-data.html">Data Table</a></li>
                         </ul> -->
                     </li>
-                    <li>
-                        <a href="<?=site_url('images')?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-instagram"></i>Images</a>
+                    <li class="<?=set_class('image')?>">
+                        <a href="<?=site_url('image')?>"> <i class="menu-icon fa fa-instagram"></i>Images</a>
                         <!-- <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
