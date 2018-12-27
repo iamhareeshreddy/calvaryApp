@@ -9,7 +9,7 @@
             <div class="col-sm-8">
                 <div class="page-header float-right">
                     <div class="page-title">
-                        <a class="btn btn-secondary" data-toggle="modal" data-target="#largeModal" href="#">Create Album</a>
+                        <a class="btn btn-secondary" data-toggle="modal" data-target="#createAlbumModel" href="#">Create Album</a>
                     </div>
                 </div>
             </div>

@@ -67,7 +67,12 @@ class Audio_controller extends CI_Controller
 		}
 		else
 		{
-			$array = array("table" => "cv_albums", 'fields' => "id, album_name, created_at, status, price", "view" => 'audio');
+			$array = array(
+				"table" 	=> "cv_albums", 
+				'fields' 	=> "id, album_name, created_at, status, price", 
+				"where"		=> array("type" => 1),
+				"view" 		=> 'audio'
+			);
 			$array['cv_albums'] = $this->common_model->get_data($array);
 			templetView($array);
 		}

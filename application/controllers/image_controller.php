@@ -28,14 +28,54 @@ class image_controller extends CI_Controller
 	}
 	public function index()
 	{
-		$array = array("view" => 'image');
-		templetView($array);
-	}
-	public function imageAlbums()
-	{
-		$array = array("table" => "cms_pages", 'fields' => "id, page_name, created_at, status", "view" => 'cmsPages', 'activeMenu' => 'cms-pages');
-		$array['data'] = $this->common_model->get_data($array);
-		templetView($array);
+		if($this->input->post("album_name") != '')
+		{
+			$this->form_validation->set_rules('album_name', 'first_name', 'required');
+			$this->form_validation->set_rules('price', 'last_name', 'required');
+			$this->form_validation->set_rules('album_id', 'Password', 'required');
+			if ($this->form_validation->run() == FALSE)
+            {
+                $response = array("error" => true, 'message' => validation_errors());
+            }
+            else
+            {
+            	$album_name = $this->input->post("album_name");
+            	$price 		= $this->input->post("price");
+            	$album_id 	= $this->input->post("album_id");
+            	if($album_id > 0)
+            	{
+            		$array = array(
+            			"table"		=> "cv_albums",
+            			"data"		=> array("album_name" => $album_name, "price" => $price),
+            			"where"		=> array("id" => $album_id)
+            		);
+            		$this->common_model->update_data($array);
+            		$response = array("error" => false, 'message' => "Album details updated.");
+            	}
+            	else
+            	{
+            		$array = array(
+            			"table"		=> "cv_albums",
+            			"data"		=> array("album_name" => $album_name, "price" => $price, "created_at" => date("Y-m-d"), "status" => 1, "type" => 3),
+            			"where"		=> array("id" => $album_id)
+            		);
+            		$this->common_model->insert_data($array);
+            		$response = array("error" => false, 'message' => "Album created successfully.");
+            	}
+            }
+            jsonEncode($response);
+		}
+		else
+		{
+			$array = array(
+				"table" 	=> "cv_albums", 
+				'fields' 	=> "id, album_name, created_at, status, price", 
+				"where"		=> array("type" => 3),
+				"view" 		=> 'image'
+			);
+			$array['cv_albums'] = $this->common_model->get_data($array);
+			templetView($array);
+		}
 	}
 	public function createAlbum()
 	{
