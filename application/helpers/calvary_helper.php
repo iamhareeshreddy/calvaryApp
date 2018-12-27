@@ -34,6 +34,21 @@ if(!function_exists("set_class"))
 		}
 	}
 }
+if(!function_exists("jsonEncode"))
+{
+	function jsonEncode($param)
+	{
+		if($param['error'] == true && $param['alert_type'] == '')
+		{
+			$param['alert_type'] = "error";
+		}
+		else if($param['error'] == false)
+		{
+			$param['alert_type'] = "success";
+		}
+		echo json_encode($param);
+	}
+}
 if (!function_exists('random_string'))
 {
 	function random_string($stringLength=10)
