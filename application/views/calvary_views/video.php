@@ -46,10 +46,10 @@
                                         ?>
                                             <tr>
                                                 <td><?=$i++?></td>
-                                                <td><a class="btn btn-link btn-lg active" href="<?=site_url('manage-audio-album/'.$album->id)?>"><?=$album->album_name;?></a></td>
+                                                <td><a class="btn btn-link btn-lg active" href="<?=site_url('manage-video-album/'.$album->id)?>"><?=$album->album_name;?></a></td>
                                                 <td><?=$album->price;?></td>
                                                 <td><?=$album->created_at;?></td>
-                                                <td><a class="update_album" data-name="<?=$album->album_name;?>" data-price="<?=$album->price;?>" data-id="<?=$album->id;?>" href="#">Update</a> | <a href="<?=site_url('manage-audio-album/'.$album->id)?>">manage</a></td>
+                                                <td><a class="update_album" data-name="<?=$album->album_name;?>" data-price="<?=$album->price;?>" data-id="<?=$album->id;?>" href="#">Update</a> | <a href="<?=site_url('manage-video-album/'.$album->id)?>">manage</a></td>
                                             </tr>
                                     <?php }} ?>
                                     </tbody>
@@ -134,7 +134,8 @@
                   confirmButtonText: "Ok"
                 },
                 function(){
-                  window.location.reload();
+                  if(result.error == false)
+                        window.location.reload();
                 });
 
             })

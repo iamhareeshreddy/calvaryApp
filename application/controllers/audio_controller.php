@@ -28,17 +28,35 @@ class Audio_controller extends CI_Controller
 	}
 	public function index()
 	{
-		if($this->input->post("album_name") != '')
+		if(!empty($this->input->post()))
 		{
-			$this->form_validation->set_rules('album_name', 'first_name', 'required');
-			$this->form_validation->set_rules('price', 'last_name', 'required');
-			$this->form_validation->set_rules('album_id', 'Password', 'required');
+			$this->form_validation->set_rules('album_name', 'Album Name', 'required');
+			$this->form_validation->set_rules('price', 'Price', 'required');
+			$this->form_validation->set_rules('album_id', 'Album Id', 'required');
 			if ($this->form_validation->run() == FALSE)
             {
                 $response = array("error" => true, 'message' => validation_errors());
             }
             else
             {
+            	if($_FILES['album_cover']['name'] != '')
+            	{
+            		$uploadDir	=	FCPATH.ALBUM_PATH;
+					if(!is_dir($uploadDir))
+					{
+						mkdir($uploadDir,'0755', true);
+					}
+					$config['upload_path']		=	$uploadDir;
+					$config['allowed_types']	= 	'gif|jpg|png';
+					$config['max_size']			=	'1000';
+					$file_name 					=   time("now").str_replace(" ", "_", $_FILES['album_cover']['name']);
+					$config['file_name'] 		= 	$file_name;
+					$this->load->library('upload', $config);
+					if ( ! $this->upload->do_upload("album_cover"))
+					{
+						//print_r($this->upload->display_errors());
+					}
+            	}
             	$album_name = $this->input->post("album_name");
             	$price 		= $this->input->post("price");
             	$album_id 	= $this->input->post("album_id");
@@ -49,6 +67,10 @@ class Audio_controller extends CI_Controller
             			"data"		=> array("album_name" => $album_name, "price" => $price),
             			"where"		=> array("id" => $album_id)
             		);
+            		if($file_name != "")
+            		{
+            			$array['data']['album_cover'] = $file_name;
+            		}
             		$this->common_model->update_data($array);
             		$response = array("error" => false, 'message' => "Album details updated.");
             	}
@@ -59,6 +81,10 @@ class Audio_controller extends CI_Controller
             			"data"		=> array("album_name" => $album_name, "price" => $price, "created_at" => date("Y-m-d"), "status" => 1, "type" => 1),
             			"where"		=> array("id" => $album_id)
             		);
+            		if($file_name != "")
+            		{
+            			$array['data']['album_cover'] = $file_name;
+            		}
             		$this->common_model->insert_data($array);
             		$response = array("error" => false, 'message' => "Album created successfully.");
             	}
@@ -69,7 +95,7 @@ class Audio_controller extends CI_Controller
 		{
 			$array = array(
 				"table" 	=> "cv_albums", 
-				'fields' 	=> "id, album_name, created_at, status, price", 
+				'fields' 	=> "id, album_name, album_cover, created_at, status, price", 
 				"where"		=> array("type" => 1),
 				"view" 		=> 'audio'
 			);
@@ -77,9 +103,9 @@ class Audio_controller extends CI_Controller
 			templetView($array);
 		}
 	}
-	public function createAlbum()
+	public function manageAudioAlbum($id=null)
 	{
-		if($this->input->post())
+		if(!empty($this->input->post()))
 		{
 			if($this->input->post('page_title') == '')
 			{
