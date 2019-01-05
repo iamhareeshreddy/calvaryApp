@@ -46,10 +46,10 @@
                                         ?>
                                             <tr>
                                                 <td><?=$i++?></td>
-                                                <td><a class="btn btn-link btn-lg active" href="<?=site_url('manage-video-album/'.$album->id)?>"><?=$album->album_name;?></a></td>
+                                                <td><a class="btn btn-link btn-lg active" href="<?=site_url('video/manage-video-album/'.$album->id)?>"><?=$album->album_name;?></a></td>
                                                 <td><?=$album->price;?></td>
                                                 <td><?=$album->created_at;?></td>
-                                                <td><a class="update_album" data-name="<?=$album->album_name;?>" data-price="<?=$album->price;?>" data-id="<?=$album->id;?>" href="#">Update</a> | <a href="<?=site_url('manage-video-album/'.$album->id)?>">manage</a></td>
+                                                <td><a class="update_album" data-name="<?=$album->album_name;?>" data-price="<?=$album->price;?>" data-id="<?=$album->id;?>" href="#">Update</a> | <a href="<?=site_url('video/manage-video-album/'.$album->id)?>">manage</a></td>
                                             </tr>
                                     <?php }} ?>
                                     </tbody>
@@ -96,17 +96,8 @@
     </div>
 </div>
 
-<script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="vendors/jszip/dist/jszip.min.js"></script>
-<script src="vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="vendors/pdfmake/build/vfs_fonts.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-<script src="assets/js/init-scripts/data-table/datatables-init.js"></script>
+<script src="<?=base_url('vendors/datatables.net/js/jquery.dataTables.min.js')?>"></script>
+<script src="<?=base_url('assets/js/init-scripts/data-table/datatables-init.js')?>"></script>
 <script type="text/javascript">
     jQuery(document).ready(function()
     {

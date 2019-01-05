@@ -29,6 +29,7 @@ class Calvary_controller extends CI_Controller
 	public function index()
 	{
 		$array = array("view" => 'dashboard');
+		$array['result'] = $this->db->query("SELECT COUNT('id') AS total, type FROM `cv_albums` WHERE status='1' GROUP BY type ORDER BY tYpe DESC")->result();
 		templetView($array);
 	}
 	public function cmsPages()

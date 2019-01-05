@@ -61,9 +61,14 @@ $route['change-password']				= 'login_controller/changePassword';
 $route['log-out']						= 'login_controller/logout';
 $route['dashboard']						= 'calvary_controller';
 $route['audio']							= 'audio_controller';
+$route['audio/manage-audio-album/(:num)'] = 'audio_controller/manageAudioAlbum/$1';
+$route['audio/remove-file'] 			= 'audio_controller/removeFile';
 $route['video']							= 'video_controller';
+$route['video/manage-video-album/(:num)'] = 'video_controller/manageVideoAlbum/$1';
+$route['video/remove-file'] 			= 'video_controller/removeFile';
 $route['image']							= 'image_controller';
-
+$route['image/manage-image-album/(:num)'] = 'image_controller/manageImageAlbum/$1';
+$route['image/remove-file'] 			= 'image_controller/removeFile';
 
 
 

@@ -84,4 +84,6 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 defined("PROJECT_NAME")		   OR define("PROJECT_NAME", "calvary");
-defined("ALBUM_PATH")		   OR define("ALBUM_PATH", 'uploads/albums/audio');
+defined("AUDIO_ALBUM_PATH")	   OR define("AUDIO_ALBUM_PATH", 'uploads/albums/audio');
+defined("VIDEO_ALBUM_PATH")	   OR define("VIDEO_ALBUM_PATH", 'uploads/albums/video');
+defined("IMAGE_ALBUM_PATH")	   OR define("IMAGE_ALBUM_PATH", 'uploads/albums/image');

@@ -28,17 +28,35 @@ class video_controller extends CI_Controller
 	}
 	public function index()
 	{
-		if($this->input->post("album_name") != '')
+		if(!empty($this->input->post()))
 		{
-			$this->form_validation->set_rules('album_name', 'first_name', 'required');
-			$this->form_validation->set_rules('price', 'last_name', 'required');
-			$this->form_validation->set_rules('album_id', 'Password', 'required');
+			$this->form_validation->set_rules('album_name', 'Album Name', 'required');
+			$this->form_validation->set_rules('price', 'Price', 'required');
+			$this->form_validation->set_rules('album_id', 'Album Id', 'required');
 			if ($this->form_validation->run() == FALSE)
             {
                 $response = array("error" => true, 'message' => validation_errors());
             }
             else
             {
+            	if($_FILES['album_cover']['name'] != '')
+            	{
+            		$uploadDir	=	FCPATH.VIDEO_ALBUM_PATH;
+					if(!is_dir($uploadDir))
+					{
+						mkdir($uploadDir,'0755', true);
+					}
+					$config['upload_path']		=	$uploadDir;
+					$config['allowed_types']	= 	'gif|jpg|png';
+					$config['max_size']			=	'1000';
+					$file_name 					=   time("now").str_replace(" ", "_", $_FILES['album_cover']['name']);
+					$config['file_name'] 		= 	$file_name;
+					$this->load->library('upload', $config);
+					if ( ! $this->upload->do_upload("album_cover"))
+					{
+						//print_r($this->upload->display_errors());
+					}
+            	}
             	$album_name = $this->input->post("album_name");
             	$price 		= $this->input->post("price");
             	$album_id 	= $this->input->post("album_id");
@@ -49,6 +67,10 @@ class video_controller extends CI_Controller
             			"data"		=> array("album_name" => $album_name, "price" => $price),
             			"where"		=> array("id" => $album_id)
             		);
+            		if($file_name != "")
+            		{
+            			$array['data']['album_cover'] = $file_name;
+            		}
             		$this->common_model->update_data($array);
             		$response = array("error" => false, 'message' => "Album details updated.");
             	}
@@ -56,9 +78,12 @@ class video_controller extends CI_Controller
             	{
             		$array = array(
             			"table"		=> "cv_albums",
-            			"data"		=> array("album_name" => $album_name, "price" => $price, "created_at" => date("Y-m-d"), "status" => 1, "type" => 2),
-            			"where"		=> array("id" => $album_id)
+            			"data"		=> array("album_name" => $album_name, "price" => $price, "created_at" => date("Y-m-d"), "status" => 1, "type" => 2)
             		);
+            		if($file_name != "")
+            		{
+            			$array['data']['album_cover'] = $file_name;
+            		}
             		$this->common_model->insert_data($array);
             		$response = array("error" => false, 'message' => "Album created successfully.");
             	}
@@ -69,7 +94,7 @@ class video_controller extends CI_Controller
 		{
 			$array = array(
 				"table" 	=> "cv_albums", 
-				'fields' 	=> "id, album_name, created_at, status, price", 
+				'fields' 	=> "id, album_name, album_cover, created_at, status, price", 
 				"where"		=> array("type" => 2),
 				"view" 		=> 'video'
 			);
@@ -77,90 +102,111 @@ class video_controller extends CI_Controller
 			templetView($array);
 		}
 	}
-	public function createAlbum()
+	public function manageVideoAlbum($id=null)
 	{
-		if($this->input->post())
+		if(!empty($this->input->post()))
 		{
-			if($this->input->post('page_title') == '')
-			{
-				echo json_encode(array("error" => true, "message" => "Page name is required"));die();
-			}
-			$array = array(
-							"table"		=> "cms_pages",
-						 	'data' => array(	"page_name" => $this->input->post('page_title'), 
-						 						"page_content" => $this->input->post('page_content'), 
-						 						"created_at" => date('Y-m-d H:i:s')
-						 					)
-						 	);
-			if($this->input->post('id') != '')
-			{
-				$array['where'] = array("id" => $this->input->post('id'));
-				if($this->common_model->update_data($array))
+			$this->form_validation->set_rules('song_name', 'Video Name', 'required');
+			if ($this->form_validation->run() == FALSE)
+            {
+                $response = array("error" => true, 'message' => validation_errors());
+            }
+            else
+            {
+            	if($_FILES['song_file']['name'] != '')
+            	{
+            		$path = VIDEO_ALBUM_PATH."/".$id;
+            		$uploadDir	=	FCPATH.$path;
+					if(!is_dir($uploadDir))
+					{
+						mkdir($uploadDir,'0755', true);
+					}
+					$config['upload_path']		=	$uploadDir;
+					$config['allowed_types']	= 	'mp4';
+					$config['max_size']			=	'20000';
+					$this->load->library('upload', $config);
+					if ( ! $this->upload->do_upload("song_file"))
+					{
+						$response = array("error" => true, 'message' => $this->upload->display_errors());
+						jsonEncode($response);die();
+					}
+					else
+					{
+						$file_name = $this->upload->data()['file_name'];
+					}
+            	}
+            	$album_name = $this->input->post("song_name");
+            	$album_id 	= $this->input->post("song_id");
+            	if($album_id > 0)
+            	{
+            		$array = array(
+            			"table"		=> "cv_video",
+            			"data"		=> array("video_name" => $album_name),
+            			"where"		=> array("id" => $album_id)
+            		);
+            		$this->common_model->update_data($array);
+            		$response = array("error" => false, 'message' => "Album details updated.");
+            	}
+            	else
+            	{
+            		$array = array(
+            			"table"		=> "cv_video",
+            			"data"		=> array("album_id" => $id, "video_name" => $album_name, "path" => $path."/".$file_name, "created_at" => date("Y-m-d"), "status" => 1)
+            		);
+            		$this->common_model->insert_data($array);
+            		$response = array("error" => false, 'message' => "Album created successfully.");
+            	}
+            }
+            jsonEncode($response);
+		}
+		else
+		{
+			$cv_album = array(
+				"table" 	=> "cv_albums", 
+				'fields' 	=> "id, album_name, album_cover, created_at, status, price", 
+				"where"		=> array("type" => 2, "id" => $id),
+				"view" 		=> 'audio'
+			);
+			$array['cv_album'] = $this->common_model->get_data($cv_album)->row();
+			$cv_items = array(
+				"table" 	=> "cv_video", 
+				'fields' 	=> "id, video_name, path, created_at, status", 
+				"where"		=> array("album_id" => $id),
+				"view" 		=> 'audio'
+			);
+			$array['cv_items'] = $this->common_model->get_data($cv_items);
+			$array['view'] = 'manage-video-album';
+			templetView($array);	
+		}
+	}
+	public function removeFile()
+	{
+		if(!empty($this->input->post()))
+		{
+			$this->form_validation->set_rules('path', 'File Path', 'required');
+			$this->form_validation->set_rules('song_id', 'Id', 'required');
+			if ($this->form_validation->run() == FALSE)
+            {
+                $response = array("error" => true, 'message' => validation_errors());
+            }
+            else
+            {
+            	$path = $this->input->post("path");
+            	$id = $this->input->post("song_id");
+            	$array = array("table" => "cv_video", "where" => array("id" => $id));
+				if($this->common_model->delete_data($array))
 				{
-					echo json_encode(array("error" => false, "message" => "Page updated successfully", "id" => $insert_id));die();
+					$response = array("error" => false, 'message' => "File deleted successfully.");
+					if(file_exists(FCPATH.$path))
+						unlink(FCPATH.$path);
 				}
 				else
 				{
-					echo json_encode(array("error" => true, "message" => "Un error occured try again..."));die();
+					$response = array("error" => true, "message" => "Un error occured try again...");
 				}
 			}
-			else
-			{
-				$insert_id = $this->common_model->insert_data($array);
-				if($insert_id)
-				{
-					echo json_encode(array("error" => false, "message" => "Page created successfully", "id" => $insert_id));die();
-				}
-				else
-				{
-					echo json_encode(array("error" => true, "message" => "Un error occured try again..."));die();
-				}
-			}
-		}
-		else
-		{
-			$array = array("view" => 'createCms', 'activeMenu' => 'cms-pages');
-			$array['prefix'] = "Create";
-			templetView($array);
-		}
-	}
-	public function deleteAlbum($id)
-	{
-		if(is_numeric($id))
-		{
-			$array = array(
-								"table" => "cms_pages",
-								"where" => array("id" => $id),
-								'type'	=> 'update',
-								"data"	=> array("status" => 0)
-							);
-			if($this->common_model->delete_data($array))
-			{
-				echo json_encode(array("error" => false, "message" => "Page successfully deleted"));die();
-			}
-			else
-			{
-				echo json_encode(array("error" => true, "message" => "Un error occured try again..."));die();
-			}
-		}
-		else
-		{
-			echo json_encode(array("error" => true, "message" => "Invalid id"));die();
-		}
-	}
-	public function updateAlbum($id)
-	{
-		if(is_numeric($id))
-		{
-			$array = array("table" => 'cms_pages', 'fields' => 'id, page_name, page_content', "where" => array("id" => $id), "view" => 'createCms', 'activeMenu' => 'cms-pages');
-			$array['data'] = $this->common_model->get_data($array);
-			$array['prefix'] = "Update";
-			templetView($array);
-		}
-		else
-		{
-			redirect('cms-pages');
-		}
+			jsonEncode($response);
+        }
 	}
 }
 ?>
