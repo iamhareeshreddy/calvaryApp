@@ -1,3 +1,5 @@
+
+
 <div class="breadcrumbs">
             <div class="col-sm-4">
                 <div class="page-header float-left">
@@ -45,7 +47,7 @@
                                             { 
                                         ?>
                                             <tr>
-                                                <td><?=$i++?></td>
+                                                <td><audio preload="auto" src="<?=site_url($album->path)?>"></audio></td>
                                                 <td><?=$album->audio_name;?></td>
                                                 <td><?=$album->status==1?"Active":"In Active";?></td>
                                                 <td><?=date("d-m-Y", strtotime($album->created_at));?></td>
@@ -124,6 +126,9 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="<?=base_url('assets/js/audio.min.js')?>"></script>
 <script src="<?=base_url('vendors/datatables.net/js/jquery.dataTables.min.js')?>"></script>
 <script type="text/javascript">
 
@@ -165,6 +170,7 @@
     }
     jQuery(document).ready(function()
     {
+        $('audio').initAudioPlayer();
     	jQuery('#album_list').dataTable({"oLanguage": {"sEmptyTable": "This Album is empty please click on add item to add."}});
         jQuery(".update_album").on("click", function()
         {
@@ -244,3 +250,8 @@
         })
     })
 </script>
+<style type="text/css">
+  .player-time, .player-bar{
+    display: none;
+  }
+</style>
