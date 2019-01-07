@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'localhost:3366',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'calvary_db',
